@@ -32,13 +32,16 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-20">
             {/* LOGO */}
-            <a href="#home" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-md bg-[#6FA56F]" />
-              <div className="font-poppins text-xl font-semibold text-slate-900">
-                padanilathu
-              </div>
-              <div className="text-sm text-slate-500 ml-2">Since 2008</div>
-            </a>
+            <a href="#home" className="flex items-center gap-2">
+  <div
+    className="font-bold text-xl"
+    style={{ fontFamily: "Arial Black, Arial, sans-serif" }}
+  >
+    padanilathu
+  </div>
+  <div className="ml-3 text-sm text-slate-500">Since 2008</div>
+</a>
+
 
             {/* DESKTOP NAV */}
             <nav className="hidden md:flex items-center gap-6 text-sm text-slate-600 font-medium">
@@ -113,7 +116,11 @@ export default function App() {
 
         <div className="relative z-20 h-full max-w-7xl mx-auto px-6 flex items-center">
           <div className="text-white max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight font-poppins">
+            <h1
+  className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight"
+  style={{ fontFamily: "Graphik, Inter, sans-serif" }}
+>
+
               Designing Eco-Conscious & Aesthetically Stunning Outdoor Spaces
             </h1>
 
@@ -377,80 +384,62 @@ export default function App() {
             NEWS
         ================================================================ */}
         <section id="news" className="mt-16">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-poppins font-semibold">News</h2>
-              <p className="mt-2 text-sm text-slate-600">
-                Company updates, achievements, and important announcements.
-              </p>
-            </div>
+  <h2 className="text-2xl font-semibold" style={{ fontFamily: "Graphik, Inter, sans-serif" }}>
+    News & Updates
+  </h2>
+  <p className="mt-2 text-sm text-slate-600">Latest announcements & events.</p>
 
-            <a href="#news" className="text-sm text-slate-500">
-              View all news →
-            </a>
-          </div>
+  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {[
+      ["news1.png", "Christmas Update — New Outdoor Lighting Designs",
+        "Special festive installations completed across Kerala resorts."],
+      ["news2.png", "500+ Completed Projects Milestone",
+        "A major achievement in delivering sustainable outdoor spaces."],
+      ["news3.png", "Kerala Landscaping Trends 2025",
+        "Emerging eco-friendly materials and design philosophies."]
+    ].map(([img, title, desc]) => (
+      <article key={title} className="bg-white rounded-lg shadow overflow-hidden">
+        <img src={`/images/${img}`} alt={title} className="w-full h-40 object-cover" />
+        <div className="p-4">
+          <h3 className="font-semibold" style={{ fontFamily: 'Graphik, Inter, sans-serif' }}>
+            {title}
+          </h3>
+          <p className="mt-2 text-sm text-slate-600">{desc}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-            {[
-              [
-                "Celebrating 17+ Years of padanilathu",
-                "Marking our journey of shaping outdoor spaces since 2008.",
-              ],
-              [
-                "500+ Completed Sites Milestone",
-                "A major achievement across homes, resorts, and institutions.",
-              ],
-              [
-                "New Regional Focus: Ernakulam",
-                "Scaling operations and increasing response speed across the district.",
-              ],
-            ].map(([title, desc]) => (
-              <article key={title} className="bg-white rounded-lg shadow-sm p-4">
-                <h3 className="font-semibold">{title}</h3>
-                <p className="mt-2 text-sm text-slate-600">{desc}</p>
-              </article>
-            ))}
-          </div>
-        </section>
 
         {/* ================================================================
             ABOUT
         ================================================================ */}
-        <section id="about" className="mt-16 bg-white rounded-xl p-8 shadow-sm">
-          <h2 className="text-2xl font-poppins font-semibold">About padanilathu</h2>
+     <section id="about" className="mt-16 bg-white rounded-xl p-8 shadow">
+  <h2 className="text-2xl font-semibold" style={{ fontFamily: "Graphik, Inter, sans-serif" }}>
+    About Padanilathu
+  </h2>
+  <p className="mt-3 text-sm text-slate-600">
+    Since 2008, Padanilathu has been shaping sustainable, high-quality outdoor spaces across Kerala.
+  </p>
 
-          <p className="mt-3 text-sm text-slate-600">
-            Since 2008, padanilathu has delivered aesthetically crafted,
-            sustainable outdoor spaces across Kerala. We blend creative design,
-            natural materials, and engineering precision to transform properties
-            into functional, eco-conscious environments.
-          </p>
+  <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
+    {[
+      ["mission.png", "Mission", "Crafting eco-conscious, aesthetic outdoor environments that improve everyday living."],
+      ["vision.png", "Vision", "To be Kerala’s most trusted outdoor architecture and landscaping brand."],
+      ["values.png", "Values", "Sustainability · Creativity · Craftsmanship · Transparency"],
+    ].map(([img, title, desc]) => (
+      <div key={title} className="text-center bg-white p-4 rounded-lg shadow-sm">
+        <img src={`/images/${img}`} alt={title} className="w-full h-40 object-cover rounded-md mb-4" />
+        <h3 className="font-semibold text-lg" style={{ fontFamily: 'Graphik, Inter, sans-serif' }}>
+          {title}
+        </h3>
+        <p className="mt-2 text-sm text-slate-600">{desc}</p>
+      </div>
+    ))}
+  </div>
+</section>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-            <div>
-              <h4 className="font-semibold">Mission</h4>
-              <p className="mt-2 text-sm text-slate-600">
-                To design beautiful, sustainable, and functional outdoor spaces
-                that enhance lifestyle and property value.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold">Vision</h4>
-              <p className="mt-2 text-sm text-slate-600">
-                To be Kerala's most trusted outdoor design partner for homes,
-                businesses, and public institutions.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold">Values</h4>
-              <p className="mt-2 text-sm text-slate-600">
-                Creativity · Sustainability · Craftsmanship · Transparency
-              </p>
-            </div>
-          </div>
-        </section>
 
         {/* ================================================================
             CAREERS
