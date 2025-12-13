@@ -1,325 +1,675 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-/* ---------------------------------------------------------
-   Padanilathu — Premium Minimal Edition (Updated Final)
-   - Centered minimal hero (A1)
-   - Soft typography (T1)
-   - Soft dark gradient overlay (H1)
-   - Nav includes Articles & News + big Get Started bubble
-   - "Premium Material Sourcing" renamed to "Material Sourcing"
-   - Clean, professional card and layout styles
-----------------------------------------------------------*/
-
-/* Simple image component with graceful fallback */
-const SmartImage = ({ src, alt, className }) => (
-  <img
-    src={src}
-    alt={alt}
-    className={className}
-    onError={(e) => (e.currentTarget.style.display = "none")}
-  />
-);
-
-/* --- Content data --- */
-const services = [
-  {
-    id: 1,
-    title: "Net-Zero & Passive Design",
-    desc: "Ultra-efficient envelopes, natural cooling and daylight optimisation.",
-    img: "/images/service1.png",
-  },
-  {
-    id: 2,
-    title: "AI Smart Home & Office",
-    desc: "Intelligent automation, predictive energy systems and ambient controls.",
-    img: "/images/service2.png",
-  },
-  {
-    id: 3,
-    title: "Material Sourcing",
-    desc: "Sustainable local materials: Kerala stone, low-VOC finishes.",
-    img: "/images/service3.png",
-  },
-  {
-    id: 4,
-    title: "Full Project Lifecycle",
-    desc: "Concept → design → build → QA → handover, with rigorous quality checks.",
-    img: "/images/service4.png",
-  },
-];
-
-const projects = [
-  {
-    id: 1,
-    title: "Net-Zero Corporate HQ",
-    category: "Green Office",
-    desc: "AI-driven climate systems and passive solar architecture.",
-    img: "/images/project1.png",
-  },
-  {
-    id: 2,
-    title: "High-Efficiency Residence",
-    category: "Residential",
-    desc: "Natural ventilation + smart material choices.",
-    img: "/images/project2.png",
-  },
-  {
-    id: 3,
-    title: "Sustainable Café Renovation",
-    category: "Commercial",
-    desc: "Geothermal cooling and daylight-led layout.",
-    img: "/images/project3.png",
-  },
-  {
-    id: 4,
-    title: "Coastal Eco-Retreat",
-    category: "Hospitality",
-    desc: "Low-impact foundations and native planting.",
-    img: "/images/project4.png",
-  },
-  {
-    id: 5,
-    title: "Garden & Hardscape Design",
-    category: "Landscape",
-    desc: "Kerala stone pathways and fruit-integrated gardens.",
-    img: "/images/project5.png",
-  },
-  {
-    id: 6,
-    title: "Automation Pilot Plant",
-    category: "Industrial",
-    desc: "Robotics + predictive maintenance facility.",
-    img: "/images/project6.png",
-  },
-];
-
-const articles = [
-  {
-    id: "a1",
-    title: "Sustainability in Modern Construction",
-    excerpt:
-      "Lifecycle thinking reduces operational costs and emissions. Passive measures plus durable materials are the highest ROI for long-term performance.",
-  },
-  {
-    id: "a2",
-    title: "AI in Homes: Everyday Benefits",
-    excerpt:
-      "Localized AI hubs optimize comfort, predict failures and reduce energy use—saving money while improving wellbeing.",
-  },
-  {
-    id: "a3",
-    title: "Designing Resilient Eco-Resorts",
-    excerpt:
-      "Low-impact foundations, native planting, and passive cooling protect fragile coastal and forest ecosystems while offering guest comfort.",
-  },
-];
-
-const news = [
-  {
-    id: "n1",
-    date: "2025-09-15",
-    title: "Partnership: AI Energy Management Firm",
-    excerpt:
-      "We teamed up with a leader in predictive energy systems to enhance residential and commercial projects.",
-  },
-  {
-    id: "n2",
-    date: "2025-10-01",
-    title: "Corporate HQ Structural Completion",
-    excerpt: "Structural phase complete; systems integration now underway.",
-  },
-  {
-    id: "n3",
-    date: "2025-12-01",
-    title: "Christmas Offer: Energy Audits",
-    excerpt:
-      "Holiday special — discounted Net-Zero feasibility audits and consultation packages for small businesses.",
-  },
-];
-
-/* --- Inline theme CSS for immediate preview --- */
-const theme = `
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap');
-
-  :root {
-    --accent: #059669;
-    --primary: #0B2545;
-    --muted: #6B7280;
-  }
-  body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #0f172a; }
-  h1,h2,h3 { font-family: 'Poppins', sans-serif; }
-  .nav-item { font-size: 16px; font-weight: 600; color: #0f172a; transition: color .18s ease; }
-  .nav-item:hover { color: var(--accent); }
-  .cta-bubble { background: linear-gradient(180deg,var(--accent), #04784f); color: white; padding: 10px 20px; border-radius: 999px; font-weight:700; box-shadow: 0 6px 20px rgba(5,102,70,0.12); }
-  .card { border: 1px solid rgba(15,23,42,0.06); border-radius: 12px; background: white; overflow: hidden; transition: box-shadow .18s ease, transform .18s ease; }
-  .card:hover { box-shadow: 0 12px 40px rgba(2,6,23,0.06); transform: translateY(-4px); }
-`;
-
-/* --- App component --- */
 export default function App() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    // Pause hero video on small screens to save bandwidth
+    const check = () => {
+      const video = document.querySelector("section#home video");
+      if (!video) return;
+      if (window.innerWidth < 700) {
+        video.pause();
+        video.style.display = "none";
+      } else {
+        video.style.display = "";
+        video.play().catch(() => {});
+      }
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
-    <div className="min-h-screen">
-      <style>{theme}</style>
+    <>
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-sm border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            <a href="#home" className="flex items-center gap-3">
+              <div
+                className="w-9 h-9 rounded-md"
+                style={{ background: "var(--pad-green, #6FA56F)" }}
+              />
+              <div className="font-poppins font-semibold text-lg text-slate-900">
+                Padanilathu
+              </div>
+              <div className="ml-3 text-sm text-slate-500">Since 2008</div>
+            </a>
 
-      {/* NAV */}
-      <header className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-emerald-600 text-white rounded-md flex items-center justify-center font-semibold">P</div>
-            <div className="text-lg font-semibold">Padanilathu</div>
+            <nav className="hidden md:flex items-center gap-6 text-sm text-slate-600">
+              <a href="#sectors" className="hover:text-slate-900">
+                Sectors
+              </a>
+              <a href="#services" className="hover:text-slate-900">
+                Services
+              </a>
+              <a href="#projects" className="hover:text-slate-900">
+                Projects
+              </a>
+              <a href="#insights" className="hover:text-slate-900">
+                Insights
+              </a>
+              <a href="#news" className="hover:text-slate-900">
+                News
+              </a>
+              <a href="#about" className="hover:text-slate-900">
+                About
+              </a>
+              <a href="#careers" className="hover:text-slate-900">
+                Careers
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center bg-[var(--pad-green,#6FA56F)] hover:bg-[var(--pad-green-dark,#507953)] text-white text-sm font-semibold px-4 py-2 rounded-md"
+              >
+                Contact
+              </a>
+            </nav>
+
+            <div className="md:hidden">
+              <button
+                id="mobileToggle"
+                aria-label="Open menu"
+                className="p-2 rounded-md border"
+                onClick={() => setMobileOpen((s) => !s)}
+              >
+                ☰
+              </button>
+            </div>
           </div>
-
-          <nav className="hidden md:flex items-center gap-6">
-            <a className="nav-item" href="#services">Services</a>
-            <a className="nav-item" href="#projects">Projects</a>
-            <a className="nav-item" href="#articles">Articles</a>
-            <a className="nav-item" href="#news">News</a>
-            <a className="nav-item" href="#contact">Contact</a>
-
-            <a className="ml-4 cta-bubble" href="#contact" aria-label="Get Started">Get Started</a>
-          </nav>
         </div>
       </header>
 
+      {/* Mobile nav */}
+      <div
+        id="mobileNav"
+        className={
+          "md:hidden fixed inset-x-4 top-20 z-40 bg-white rounded-md shadow-lg p-4 transform transition-all " +
+          (mobileOpen ? "block" : "hidden")
+        }
+      >
+        <div className="flex flex-col gap-3 text-slate-700">
+          <a href="#sectors" onClick={() => setMobileOpen(false)}>
+            Sectors
+          </a>
+          <a href="#services" onClick={() => setMobileOpen(false)}>
+            Services
+          </a>
+          <a href="#projects" onClick={() => setMobileOpen(false)}>
+            Projects
+          </a>
+          <a href="#insights" onClick={() => setMobileOpen(false)}>
+            Insights
+          </a>
+          <a href="#news" onClick={() => setMobileOpen(false)}>
+            News
+          </a>
+          <a href="#about" onClick={() => setMobileOpen(false)}>
+            About
+          </a>
+          <a href="#careers" onClick={() => setMobileOpen(false)}>
+            Careers
+          </a>
+          <a
+            href="#contact"
+            className="mt-2 inline-flex items-center bg-[var(--pad-green,#6FA56F)] hover:bg-[var(--pad-green-dark,#507953)] text-white text-sm font-semibold px-4 py-2 rounded-md"
+            onClick={() => setMobileOpen(false)}
+          >
+            Contact
+          </a>
+        </div>
+      </div>
+
       {/* HERO */}
-      <section id="hero" className="relative h-[80vh] flex items-center justify-center text-center">
-        <SmartImage src="/images/hero-main.png" alt="Hero" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/45 to-black/20"></div>
+      <section id="home" className="relative h-screen min-h-[640px]">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          poster="/images/hero1.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src="/videos/hero1.mp4" type="video/mp4" />
+          <source src="/videos/hero1.webm" type="video/webm" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/36" />
 
-        <div className="relative z-10 max-w-3xl px-6">
-          <h1 className="text-white text-4xl md:text-5xl font-semibold leading-tight">
-            Building a Sustainable Future Driven by Innovation
-          </h1>
+        <div className="relative z-20 max-w-7xl mx-auto px-6 h-full flex items-center">
+          <div className="text-white max-w-3xl">
+            <h1 className="font-poppins text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
+              Designing Enduring, High-Quality Outdoor Spaces for Kerala
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-white/90">
+              Landscape architecture, natural stone paving, exterior design and 3D
+              visualization — delivered statewide with a focus on Ernakulam.
+            </p>
 
-          <p className="text-white/90 text-lg md:text-xl mt-6 max-w-2xl mx-auto">
-            We design and construct intelligent, high-efficiency structures, seamlessly merging advanced construction, AI integration, and Net-Zero sustainability.
-          </p>
+            <div className="mt-6 flex flex-wrap gap-4 items-center">
+              <a
+                href="#services"
+                className="inline-flex items-center bg-white text-[var(--pad-green,#6FA56F)] font-semibold px-4 py-2 rounded-md shadow-sm"
+              >
+                Explore Services
+              </a>
+              <a
+                href="#projects"
+                className="inline-flex items-center border border-white/30 text-white px-4 py-2 rounded-md"
+              >
+                View Projects
+              </a>
+            </div>
 
-          <div className="mt-8 flex justify-center gap-4">
-            <a href="#contact" className="bg-white text-emerald-600 px-6 py-3 rounded-full font-semibold shadow-sm">Request Proposal</a>
-            <a href="#projects" className="border border-white/30 text-white px-6 py-3 rounded-full font-semibold">View Projects</a>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES */}
-      <section id="services" className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-semibold text-center mb-4">Our Core Expertise</h2>
-          <p className="text-center text-gray-600 max-w-xl mx-auto mb-10">Clean, efficient and future-ready building solutions delivered end-to-end.</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {services.map((s) => (
-              <div key={s.id} className="card">
-                <SmartImage src={s.img} alt={s.title} className="w-full h-44 object-cover" />
-                <div className="p-6">
-                  <h3 className="text-xl font-medium mb-2">{s.title}</h3>
-                  <p className="text-gray-600 text-sm">{s.desc}</p>
-                </div>
+            <div className="mt-8 flex gap-6 flex-wrap">
+              <div className="bg-white/10 rounded-lg p-3 min-w-[180px]">
+                <div className="text-2xl font-semibold">500+</div>
+                <div className="text-sm text-white/80">Completed Sites</div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PROJECTS */}
-      <section id="projects" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Featured Projects</h2>
-            <a href="#news" className="text-sm text-emerald-600 font-semibold">See news</a>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {projects.map((p) => (
-              <div key={p.id} className="card">
-                <SmartImage src={p.img} alt={p.title} className="w-full h-56 object-cover" />
-                <div className="p-6">
-                  <span className="inline-block bg-emerald-600 text-white text-xs px-2 py-1 rounded-full">{p.category}</span>
-                  <h3 className="text-lg font-medium mt-3">{p.title}</h3>
-                  <p className="text-gray-600 text-sm mt-2">{p.desc}</p>
-                </div>
+              <div className="bg-white/10 rounded-lg p-3 min-w-[180px]">
+                <div className="text-2xl font-semibold">17+</div>
+                <div className="text-sm text-white/80">Years of Experience</div>
               </div>
-            ))}
-          </div>
-
-          {/* INSIGHTS / BRIEF BELOW PROJECTS */}
-          <div className="mt-12 p-6 bg-white border border-gray-100 rounded-xl">
-            <h3 className="text-xl font-semibold mb-3">Insights — Brief from our engineering team</h3>
-            <p className="text-gray-700 mb-4">We combine passive design and predictive AI to reduce operational energy and improve occupant wellbeing. Below are short insights you can apply to any project.</p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 bg-gray-50 rounded">
-                <h4 className="font-semibold mb-2">Passive Design</h4>
-                <p className="text-sm text-gray-600">Orientation, shading and insulation tuned to local climate reduce heating and cooling loads without always relying on technology.</p>
-              </div>
-              <div className="p-4 bg-gray-50 rounded">
-                <h4 className="font-semibold mb-2">AI Predictive Systems</h4>
-                <p className="text-sm text-gray-600">Sensor-driven controls anticipate faults and optimize comfort while lowering energy use and maintenance costs.</p>
-              </div>
-              <div className="p-4 bg-gray-50 rounded">
-                <h4 className="font-semibold mb-2">Eco-Resort Strategies</h4>
-                <p className="text-sm text-gray-600">Low-impact foundations and native planting minimize erosion and protect habitats while providing guest comfort.</p>
+              <div className="bg-white/10 rounded-lg p-3 min-w-[220px]">
+                <div className="text-2xl font-semibold">Integrated</div>
+                <div className="text-sm text-white/80">Design–Build Delivery</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ARTICLES */}
-      <section id="articles" className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-semibold text-center mb-6">Articles & Insights</h2>
-          <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">Short expert pieces on sustainability, AI for everyday life, and resilient design for sensitive environments.</p>
+      <main className="relative max-w-7xl mx-auto px-6 -mt-24 pb-24">
+        {/* Sectors */}
+        <section
+          id="sectors"
+          className="bg-white rounded-xl shadow-sm p-8"
+          aria-label="Sectors"
+        >
+          <div className="flex items-start justify-between">
+            <div>
+              <h2 className="text-2xl font-poppins font-semibold">Sectors</h2>
+              <p className="mt-2 text-sm text-slate-600">
+                We create outdoor environments across multiple sectors and
+                project sizes.
+              </p>
+            </div>
+            <div className="hidden md:flex gap-3">
+              <a href="#sectors" className="text-sm text-slate-500">
+                Explore all
+              </a>
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {articles.map((a) => (
-              <article key={a.id} className="card p-6">
-                <h3 className="text-lg font-medium mb-2">{a.title}</h3>
-                <p className="text-sm text-gray-700">{a.excerpt}</p>
-                <a href="#contact" className="inline-block mt-4 text-emerald-600 font-semibold">Read More →</a>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <a
+              href="#sector-residential"
+              className="relative block rounded-lg overflow-hidden h-44 bg-cover bg-center"
+              style={{ backgroundImage: "url('/images/sector_residential.jpg')" }}
+              aria-label="Residential sector"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white font-semibold">
+                Residential
+              </div>
+            </a>
+
+            <a
+              href="#sector-commercial"
+              className="relative block rounded-lg overflow-hidden h-44 bg-cover bg-center"
+              style={{ backgroundImage: "url('/images/sector_commercial.jpg')" }}
+              aria-label="Commercial sector"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white font-semibold">
+                Commercial
+              </div>
+            </a>
+
+            <a
+              href="#sector-hospitality"
+              className="relative block rounded-lg overflow-hidden h-44 bg-cover bg-center"
+              style={{ backgroundImage: "url('/images/sector_hospitality.jpg')" }}
+              aria-label="Hospitality sector"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white font-semibold">
+                Hospitality
+              </div>
+            </a>
+
+            <a
+              href="#sector-public"
+              className="relative block rounded-lg overflow-hidden h-44 bg-cover bg-center"
+              style={{ backgroundImage: "url('/images/sector_public.jpg')" }}
+              aria-label="Public and recreational sector"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white font-semibold">
+                Public & Recreational
+              </div>
+            </a>
+
+            <a
+              href="#sector-institutional"
+              className="relative block rounded-lg overflow-hidden h-44 bg-cover bg-center"
+              style={{
+                backgroundImage: "url('/images/sector_institutional.jpg')",
+              }}
+              aria-label="Institutional sector"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white font-semibold">
+                Institutional
+              </div>
+            </a>
+
+            <a
+              href="#sector-developers"
+              className="relative block rounded-lg overflow-hidden h-44 bg-cover bg-center"
+              style={{ backgroundImage: "url('/images/sector_developers.jpg')" }}
+              aria-label="Real estate and developers"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white font-semibold">
+                Real Estate & Developers
+              </div>
+            </a>
+
+            <a
+              href="#sector-industrial"
+              className="relative block rounded-lg overflow-hidden h-44 bg-cover bg-center"
+              style={{ backgroundImage: "url('/images/sector_industrial.jpg')" }}
+              aria-label="Industrial sector"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white font-semibold">
+                Industrial
+              </div>
+            </a>
+          </div>
+        </section>
+
+        {/* Services */}
+        <section id="services" className="mt-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-poppins font-semibold">Services</h2>
+              <p className="mt-2 text-sm text-slate-600">
+                Complete expertise from concept and 3D visualization to
+                construction and maintenance.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                src: "/images/service_landscape.jpg",
+                alt: "Landscaping and Gardening",
+                title: "Landscaping and Gardening",
+                desc:
+                  "Master planning, gardens, lawns, vertical & terrace gardens, irrigation and maintenance.",
+              },
+              {
+                src: "/images/service_stonepaving.jpg",
+                alt: "Natural stone paving and hardscaping",
+                title: "Natural Stone Paving and Hardscaping",
+                desc:
+                  "Courtyards, driveways, patios, interlock and long-lasting outdoor flooring solutions.",
+              },
+              {
+                src: "/images/service_exterior.jpg",
+                alt: "Exterior architecture and 3D design",
+                title: "Exterior Architecture and 3D Design",
+                desc:
+                  "Façade design, pergolas, 3D renders, material boards and construction drawings.",
+              },
+              {
+                src: "/images/service_waterfeatures.jpg",
+                alt: "Water features",
+                title: "Water Features",
+                desc:
+                  "Fountains, waterfalls, ponds and eco-circulating systems with lighting and filtration.",
+              },
+              {
+                src: "/images/service_playgrounds.jpg",
+                alt: "Playgrounds and sports areas",
+                title: "Playgrounds and Sports Areas",
+                desc:
+                  "Children's play zones, tennis and badminton courts, jogging tracks and outdoor gyms.",
+              },
+              {
+                src: "/images/service_commercial.jpg",
+                alt: "Commercial and resort landscaping",
+                title: "Commercial and Resort Landscaping",
+                desc:
+                  "Hospitality exteriors, resort pathways, poolside landscapes, and corporate open areas.",
+              },
+              {
+                src: "/images/service_renovation.jpg",
+                alt: "Renovation and maintenance",
+                title: "Renovation and Maintenance",
+                desc:
+                  "Garden restoration, re-paving, seasonal care and annual maintenance packages.",
+              },
+              {
+                src: "/images/service_consulting.jpg",
+                alt: "Outdoor space consulting",
+                title: "Outdoor Space Consulting",
+                desc:
+                  "Site assessment, budgeting, material selection, BOQs and supervision.",
+              },
+              {
+                src: "/images/service_sustainability.jpg",
+                alt: "Sustainable outdoor solutions",
+                title: "Sustainable Outdoor Solutions",
+                desc:
+                  "Native planting, rainwater integration, low-water irrigation and solar-ready lighting.",
+              },
+            ].map((s) => (
+              <article key={s.title} className="bg-white rounded-lg shadow-sm overflow-hidden">
+                <img src={s.src} alt={s.alt} className="w-full h-44 object-cover" />
+                <div className="p-4">
+                  <h3 className="font-semibold">{s.title}</h3>
+                  <p className="mt-2 text-sm text-slate-600">{s.desc}</p>
+                </div>
               </article>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* NEWS & UPDATES */}
-      <section id="news" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-semibold text-center mb-6">News & Updates</h2>
-          <p className="text-center text-gray-600 mb-8">Latest milestones, company news and seasonal updates.</p>
+        {/* Projects */}
+        <section id="projects" className="mt-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-poppins font-semibold">Featured Projects</h2>
+              <p className="mt-2 text-sm text-slate-600">
+                Selected work across Kerala — courtyards, resorts, cafés and residential gardens.
+              </p>
+            </div>
+            <a href="#projects" className="text-sm text-slate-500">
+              View all projects →
+            </a>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {news.map((n) => (
-              <div key={n.id} className="card p-6">
-                <span className="text-xs text-gray-500 block mb-2">{n.date}</span>
-                <h3 className="font-medium text-lg mb-2">{n.title}</h3>
-                <p className="text-sm text-gray-700">{n.excerpt}</p>
-              </div>
+          <div className="mt-6 flex gap-6 overflow-x-auto pb-4">
+            {[
+              {
+                src: "/images/project1_1.jpg",
+                alt: "Natural stone courtyard — Ernakulam",
+                title: "Natural Stone Courtyard — Ernakulam",
+                desc: "Durable paving and courtyard seating area.",
+              },
+              {
+                src: "/images/project2_1.jpg",
+                alt: "Tropical waterfall garden — Kottayam",
+                title: "Tropical Waterfall Garden — Kottayam",
+                desc: "Integrated water feature with native planting palette.",
+              },
+              {
+                src: "/images/project3_1.jpg",
+                alt: "Café exterior seating — Kochi",
+                title: "Café Exterior Ambience — Kochi",
+                desc: "Outdoor dining & lighting design.",
+              },
+              {
+                src: "/images/project4_1.jpg",
+                alt: "Resort pathway — Alappuzha",
+                title: "Resort Pathway & Plantation — Alappuzha",
+                desc: "Pathways and atmospheric lighting.",
+              },
+            ].map((p) => (
+              <article key={p.title} className="min-w-[320px] bg-white rounded-lg shadow-sm overflow-hidden">
+                <img src={p.src} alt={p.alt} className="w-full h-44 object-cover" />
+                <div className="p-4">
+                  <h3 className="font-semibold">{p.title}</h3>
+                  <p className="mt-2 text-sm text-slate-600">{p.desc}</p>
+                </div>
+              </article>
             ))}
           </div>
+        </section>
+
+        {/* Our Process */}
+        <section id="process" className="mt-10 bg-white rounded-xl p-6 shadow-sm">
+          <h2 className="text-2xl font-poppins font-semibold">Our Process</h2>
+          <p className="mt-2 text-sm text-slate-600">A simple, transparent workflow for every project.</p>
+
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="p-4 border rounded-md text-sm text-slate-700">
+              <div className="font-semibold">1. Site Consultation</div>
+              <div className="text-slate-500 mt-1 text-sm">On-site study and brief development</div>
+            </div>
+            <div className="p-4 border rounded-md">
+              <div className="font-semibold">2. 3D Design & Planning</div>
+              <div className="text-slate-500 mt-1 text-sm">Photoreal renders and design approval</div>
+            </div>
+            <div className="p-4 border rounded-md">
+              <div className="font-semibold">3. Material & Budget</div>
+              <div className="text-slate-500 mt-1 text-sm">BOQs, sample boards and cost planning</div>
+            </div>
+            <div className="p-4 border rounded-md">
+              <div className="font-semibold">4. Execution & Quality</div>
+              <div className="text-slate-500 mt-1 text-sm">Site supervision and finishing standards</div>
+            </div>
+            <div className="p-4 border rounded-md">
+              <div className="font-semibold">5. Handover & Maintenance</div>
+              <div className="text-slate-500 mt-1 text-sm">Warranty, training and AMC plans</div>
+            </div>
+          </div>
+        </section>
+
+        {/* Insights */}
+        <section id="insights" className="mt-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-poppins font-semibold">Insights</h2>
+              <p className="mt-2 text-sm text-slate-600">Thought leadership and practical guides from our team.</p>
+            </div>
+            <a href="#insights" className="text-sm text-slate-500">
+              View all insights →
+            </a>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <article className="bg-white rounded-lg shadow-sm p-4">
+              <h3 className="font-semibold">Designing Climate-Responsive Landscapes for Kerala</h3>
+              <p className="mt-2 text-sm text-slate-600">How heat, humidity and soil influence planning and plant selection.</p>
+            </article>
+
+            <article className="bg-white rounded-lg shadow-sm p-4">
+              <h3 className="font-semibold">The Role of Native Plants in Sustainable Outdoor Design</h3>
+              <p className="mt-2 text-sm text-slate-600">Why native flora reduces maintenance and supports biodiversity.</p>
+            </article>
+
+            <article className="bg-white rounded-lg shadow-sm p-4">
+              <h3 className="font-semibold">Natural Stone vs Interlock: Choosing the Right Paving Material</h3>
+              <p className="mt-2 text-sm text-slate-600">A practical guide to material selection for long term performance.</p>
+            </article>
+          </div>
+        </section>
+
+        {/* News */}
+        <section id="news" className="mt-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-poppins font-semibold">News</h2>
+              <p className="mt-2 text-sm text-slate-600">Company announcements, milestones and project updates.</p>
+            </div>
+            <a href="#news" className="text-sm text-slate-500">
+              View all news →
+            </a>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <article className="bg-white rounded-lg shadow-sm p-4">
+              <h3 className="font-semibold">Celebrating 17+ Years of padanilathu</h3>
+              <p className="mt-2 text-sm text-slate-600">From 2008 to 2025 — our journey shaping Kerala’s outdoor spaces.</p>
+            </article>
+
+            <article className="bg-white rounded-lg shadow-sm p-4">
+              <h3 className="font-semibold">500+ Completed Sites Milestone</h3>
+              <p className="mt-2 text-sm text-slate-600">A major delivery milestone across residential and commercial sectors.</p>
+            </article>
+
+            <article className="bg-white rounded-lg shadow-sm p-4">
+              <h3 className="font-semibold">New Regional Focus: Ernakulam</h3>
+              <p className="mt-2 text-sm text-slate-600">Expanding operations and quicker response times across Ernakulam district.</p>
+            </article>
+          </div>
+        </section>
+
+        {/* About */}
+        <section id="about" className="mt-10 bg-white rounded-xl p-6 shadow-sm">
+          <h2 className="text-2xl font-poppins font-semibold">About padanilathu</h2>
+          <p className="mt-3 text-sm text-slate-600">Since 2008,
+            padanilathu has delivered aesthetic, sustainable outdoor spaces across Kerala. We combine design sensibility with durable materials and a client-focused execution model.
+          </p>
+
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div>
+              <h4 className="font-semibold">Mission</h4>
+              <p className="mt-2 text-sm text-slate-600">To design beautiful, sustainable and functional outdoor spaces that enhance lifestyle and property value.</p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold">Vision</h4>
+              <p className="mt-2 text-sm text-slate-600">To be Kerala's most trusted outdoor design partner for homes, businesses, and public spaces.</p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold">Values</h4>
+              <p className="mt-2 text-sm text-slate-600">Creativity · Sustainability · Craftsmanship · Transparency</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Careers */}
+        <section id="careers" className="mt-10">
+          <h2 className="text-2xl font-poppins font-semibold">Careers</h2>
+          <p className="mt-2 text-sm text-slate-600">Join padanilathu — we hire designers, engineers, horticulturists and technicians for projects across Kerala.</p>
+
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <h4 className="font-semibold">Landscape Architect / Designer</h4>
+              <p className="mt-1 text-sm text-slate-600">Experience: 2–6 years. Location: Ernakulam. Apply with CV & portfolio.</p>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <h4 className="font-semibold">Site Supervisor / Foreman</h4>
+              <p className="mt-1 text-sm text-slate-600">Experience: 3+ years. Supervise site teams, ensure quality delivery.</p>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <h4 className="font-semibold">Horticulturist / Plant Specialist</h4>
+              <p className="mt-1 text-sm text-slate-600">Plant selection, soil & irrigation planning. Apply with references.</p>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <h4 className="font-semibold">3D Visualization Intern</h4>
+              <p className="mt-1 text-sm text-slate-600">Assist in renders and CAD drawings. Portfolio required.</p>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <a href="#contact" className="inline-flex items-center bg-[var(--pad-green,#6FA56F)] hover:bg-[var(--pad-green-dark,#507953)] text-white text-sm font-semibold px-4 py-2 rounded-md">Apply Now</a>
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="mt-10 bg-white rounded-xl p-6 shadow-sm">
+          <h2 className="text-2xl font-poppins font-semibold">Contact</h2>
+          <p className="mt-2 text-sm text-slate-600">Request a free site visit and estimate. We serve all of Kerala with a strong presence in Ernakulam.</p>
+
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <p className="text-sm text-slate-600">Quick contact</p>
+              <ul className="mt-4 space-y-3 text-sm text-slate-700">
+                <li><strong>Phone:</strong> <a className="text-slate-600" href="tel:+91-XXXXXXXXXX">+91-XXXXXXXXXX</a></li>
+                <li><strong>Email:</strong> <a className="text-slate-600" href="mailto:hello@padanilathu.com">hello@padanilathu.com</a></li>
+                <li><strong>Service area:</strong> All Kerala — focus Ernakulam</li>
+              </ul>
+
+              <div className="mt-6 rounded-md overflow-hidden">
+                <img src="/images/about_office.jpg" alt="Padanilathu office" className="w-full h-56 object-cover" />
+              </div>
+            </div>
+
+            <form id="contactForm" className="space-y-3" onSubmit={(e) => { e.preventDefault(); alert("Form submitted — connect backend to process."); }}>
+              <input type="text" name="name" required placeholder="Full name" className="w-full p-3 rounded-md border border-slate-200" />
+              <input type="tel" name="phone" required placeholder="Phone" className="w-full p-3 rounded-md border border-slate-200" />
+              <input type="email" name="email" placeholder="Email (optional)" className="w-full p-3 rounded-md border border-slate-200" />
+              <select name="service" className="w-full p-3 rounded-md border border-slate-200">
+                <option>Service required</option>
+                <option>Landscaping</option>
+                <option>Stone paving</option>
+                <option>3D design</option>
+                <option>Maintenance</option>
+              </select>
+              <textarea name="message" rows="4" placeholder="Project brief (optional)" className="w-full p-3 rounded-md border border-slate-200" />
+              <button type="submit" className="inline-flex items-center bg-[var(--pad-green,#6FA56F)] hover:bg-[var(--pad-green-dark,#507953)] text-white text-sm font-semibold px-4 py-2 rounded-md">Request Site Visit</button>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-white border-t border-slate-100 mt-16">
+        <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <div className="font-poppins font-semibold text-lg">Padanilathu</div>
+            <div className="mt-2 text-sm text-slate-600">Transforming Kerala’s outdoor environments since 2008.</div>
+            <div className="mt-2 text-sm text-slate-600">17+ Years · 500+ Completed Sites</div>
+
+            <div className="mt-4 flex gap-3">
+              <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-md border flex items-center justify-center text-slate-700 hover:bg-[var(--pad-green)] hover:text-white">
+                {/* Instagram */}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.2"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" strokeWidth="1.2"/><circle cx="17.5" cy="6.5" r="0.7" fill="currentColor"/></svg>
+              </a>
+
+              <a href="#" aria-label="Facebook" className="w-9 h-9 rounded-md border flex items-center justify-center text-slate-700 hover:bg-[var(--pad-green)] hover:text-white">
+                {/* Facebook */}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.2"/><path d="M15 8h-1.4c-1 0-1.1.5-1.1 1.1V10h2.5l-.4 2.3H12.5v5H10v-5H8.8V10H10v-1.6C10 6.9 10.9 6 12.6 6H15v2z" fill="currentColor"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <div className="font-semibold">Navigation</div>
+            <ul className="mt-3 space-y-2 text-sm text-slate-600">
+              <li><a href="#sectors">Sectors</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#insights">Insights</a></li>
+              <li><a href="#news">News</a></li>
+              <li><a href="#careers">Careers</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="font-semibold">Contact</div>
+            <div className="mt-3 text-sm text-slate-600">
+              Phone: <a href="tel:+91-XXXXXXXXXX" className="text-slate-700">+91-XXXXXXXXXX</a><br />
+              Email: <a href="mailto:hello@padanilathu.com" className="text-slate-700">hello@padanilathu.com</a><br />
+              Service area: All Kerala — focus Ernakulam
+            </div>
+          </div>
+
+          <div>
+            <div className="font-semibold">Quick Links</div>
+            <ul className="mt-3 space-y-2 text-sm text-slate-600">
+              <li><a href="#contact">Request a Free Site Visit</a></li>
+              <li><a href="#">Download Company Profile (PDF)</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
         </div>
-      </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="py-20">
-        <div className="max-w-lg mx-auto px-6">
-          <h2 className="text-3xl font-semibold text-center mb-6">Let’s Build Smarter Together</h2>
-
-          <form className="bg-gray-50 border border-gray-100 rounded-xl p-8 space-y-4">
-            <input type="text" placeholder="Your Name" className="w-full p-3 border rounded" required />
-            <input type="email" placeholder="Your Email" className="w-full p-3 border rounded" required />
-            <textarea placeholder="Tell us about your project..." rows="4" className="w-full p-3 border rounded" required />
-            <button type="submit" className="w-full bg-emerald-600 text-white py-3 rounded font-semibold">Send Inquiry</button>
-          </form>
+        <div className="border-t border-slate-100 py-4">
+          <div className="max-w-7xl mx-auto px-6 text-center text-sm text-slate-500">© 2025 Pad​anilathu. All rights reserved.</div>
         </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="py-10 border-t border-gray-100 text-center text-gray-500">
-        © 2025 Padanilathu. All rights reserved.
       </footer>
-    </div>
+    </>
   );
 }
