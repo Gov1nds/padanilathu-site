@@ -28,74 +28,82 @@ export default function App() {
       {/* ================================================================
           HEADER
       ================================================================= */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between h-20">
-            {/* LOGO */}
-            <a href="#home" className="flex items-center gap-2">
-  <div
-    className="font-bold text-xl"
-    style={{ fontFamily: "Arial Black, Arial, sans-serif" }}
-  >
-    padanilathu
-  </div>
-  <div className="ml-3 text-sm text-slate-500">Since 2008</div>
-</a>
+ <header className="fixed top-0 left-0 right-0 z-50 bg-transparent border-b border-transparent">
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="flex items-center justify-between h-20">
 
+      {/* LOGO */}
+      <a href="#home" className="relative flex items-center gap-2 group">
+        <div
+          className="text-2xl font-extrabold tracking-wide relative text-white"
+          style={{ fontFamily: "Graphik, Arial Black, Arial, sans-serif" }}
+        >
+          padanilathu
 
-            {/* DESKTOP NAV */}
-            <nav className="hidden md:flex items-center gap-6 text-sm text-slate-600 font-medium">
-              <a href="#sectors" className="hover:text-slate-900">Sectors</a>
-              <a href="#services" className="hover:text-slate-900">Services</a>
-              <a href="#projects" className="hover:text-slate-900">Projects</a>
-              <a href="#gallery" className="hover:text-slate-900">Gallery</a>
-              <a href="#insights" className="hover:text-slate-900">Insights</a>
-              <a href="#news" className="hover:text-slate-900">News</a>
-              <a href="#about" className="hover:text-slate-900">About</a>
-              <a href="#careers" className="hover:text-slate-900">Careers</a>
-
-              <a
-                href="#contact"
-                className="bg-[#6FA56F] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#507953]"
-              >
-                Contact
-              </a>
-            </nav>
-
-            {/* MOBILE BUTTON */}
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 border rounded-md"
-            >
-              ☰
-            </button>
-          </div>
+          {/* Highlight underline */}
+          <span
+            className="absolute left-0 -bottom-1 w-full h-[3px] bg-[#6FA56F] rounded-full opacity-90 group-hover:opacity-100 transition-all duration-300"
+          ></span>
         </div>
 
-        {/* MOBILE NAV */}
-        {mobileOpen && (
-          <div className="md:hidden absolute left-4 right-4 top-20 bg-white rounded-lg shadow-lg p-4 z-50">
-            <div className="flex flex-col gap-3 text-slate-700 font-medium">
-              <a href="#sectors" onClick={() => setMobileOpen(false)}>Sectors</a>
-              <a href="#services" onClick={() => setMobileOpen(false)}>Services</a>
-              <a href="#projects" onClick={() => setMobileOpen(false)}>Projects</a>
-              <a href="#gallery" onClick={() => setMobileOpen(false)}>Gallery</a>
-              <a href="#insights" onClick={() => setMobileOpen(false)}>Insights</a>
-              <a href="#news" onClick={() => setMobileOpen(false)}>News</a>
-              <a href="#about" onClick={() => setMobileOpen(false)}>About</a>
-              <a href="#careers" onClick={() => setMobileOpen(false)}>Careers</a>
+        <div className="ml-3 text-sm text-white/80 font-medium">
+          Since 2008
+        </div>
+      </a>
 
-              <a
-                href="#contact"
-                onClick={() => setMobileOpen(false)}
-                className="bg-[#6FA56F] text-white px-4 py-2 rounded-md mt-2"
-              >
-                Contact
-              </a>
-            </div>
-          </div>
-        )}
-      </header>
+      {/* DESKTOP NAV */}
+      <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-white">
+        <a href="#sectors" className="hover:text-[#6FA56F]">Sectors</a>
+        <a href="#services" className="hover:text-[#6FA56F]">Services</a>
+        <a href="#projects" className="hover:text-[#6FA56F]">Projects</a>
+        <a href="#gallery" className="hover:text-[#6FA56F]">Gallery</a>
+        <a href="#insights" className="hover:text-[#6FA56F]">Insights</a>
+        <a href="#news" className="hover:text-[#6FA56F]">News</a>
+        <a href="#about" className="hover:text-[#6FA56F]">About</a>
+        <a href="#careers" className="hover:text-[#6FA56F]">Careers</a>
+
+        <a
+          href="#contact"
+          className="px-4 py-2 rounded-md font-semibold border border-white text-white hover:bg-white hover:text-[#6FA56F] transition"
+        >
+          Contact
+        </a>
+      </nav>
+
+      {/* MOBILE TOGGLE */}
+      <button
+        onClick={() => setMobileOpen(!mobileOpen)}
+        className="md:hidden p-2 border border-white text-white rounded-md"
+      >
+        ☰
+      </button>
+    </div>
+  </div>
+
+  {/* MOBILE NAV */}
+  {mobileOpen && (
+    <div className="md:hidden absolute left-4 right-4 top-20 bg-white rounded-lg shadow-lg p-4 z-50">
+      <div className="flex flex-col gap-3 text-slate-700 font-medium">
+        <a href="#sectors" onClick={() => setMobileOpen(false)}>Sectors</a>
+        <a href="#services" onClick={() => setMobileOpen(false)}>Services</a>
+        <a href="#projects" onClick={() => setMobileOpen(false)}>Projects</a>
+        <a href="#gallery" onClick={() => setMobileOpen(false)}>Gallery</a>
+        <a href="#insights" onClick={() => setMobileOpen(false)}>Insights</a>
+        <a href="#news" onClick={() => setMobileOpen(false)}>News</a>
+        <a href="#about" onClick={() => setMobileOpen(false)}>About</a>
+        <a href="#careers" onClick={() => setMobileOpen(false)}>Careers</a>
+        <a
+          href="#contact"
+          onClick={() => setMobileOpen(false)}
+          className="bg-[#6FA56F] text-white px-4 py-2 rounded-md mt-2"
+        >
+          Contact
+        </a>
+      </div>
+    </div>
+  )}
+</header>
+
 
       {/* ================================================================
           HERO SECTION
@@ -411,6 +419,90 @@ export default function App() {
   </div>
 </section>
 
+{/* ================================================================
+    REVIEWS / TESTIMONIALS
+================================================================ */}
+<section id="reviews" className="mt-16">
+  <h2
+    className="text-2xl font-semibold"
+    style={{ fontFamily: "Graphik, Inter, sans-serif" }}
+  >
+    Client Reviews
+  </h2>
+  <p className="mt-2 text-sm text-slate-600">
+    Words from homeowners and project partners.
+  </p>
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+
+    {/* Review 1 - Sanjith */}
+    <article className="bg-white rounded-lg shadow p-5">
+      <img
+        src="/images/review1.png"
+        alt="Reviewer"
+        className="w-14 h-14 rounded-full object-cover mb-3"
+      />
+      <h3 className="font-semibold text-lg">Sanjith Pillai</h3>
+
+      {/* Stars */}
+      <div className="flex text-yellow-500 text-xl mt-1">
+        ★★★★★
+      </div>
+
+      <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+        Worked with them for my home front yard tile paving and found their
+        service extremely satisfying and value for money. If I need to work
+        with them again, I will have no hesitation without any second thoughts.
+      </p>
+    </article>
+
+    {/* Review 2 - Sreekanth */}
+    <article className="bg-white rounded-lg shadow p-5">
+      <img
+        src="/images/review2.png"
+        alt="Reviewer"
+        className="w-14 h-14 rounded-full object-cover mb-3"
+      />
+      <h3 className="font-semibold text-lg">Sreekanth Haridasan</h3>
+
+      {/* Stars */}
+      <div className="flex text-yellow-500 text-xl mt-1">
+        ★★★★★
+      </div>
+
+      <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+        Although I have been in contact with people from various professions
+        related to house construction, it was only when I met "Padanilathu"
+        that I was able to see a team that works honestly. Thanks to Mr.
+        Sudhakaran and his hardworking team members.
+      </p>
+
+      <p className="mt-2 text-xs text-slate-500">3 years ago</p>
+    </article>
+
+    {/* Review 3 - Placeholder Fake Review */}
+    <article className="bg-white rounded-lg shadow p-5">
+      <img
+        src="/images/review3.png"
+        alt="Reviewer"
+        className="w-14 h-14 rounded-full object-cover mb-3"
+      />
+      <h3 className="font-semibold text-lg">Ananya R.</h3>
+
+      {/* Stars */}
+      <div className="flex text-yellow-500 text-xl mt-1">
+        ★★★★★
+      </div>
+
+      <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+        Professional team, timely work, and excellent design inputs. The garden
+        layout and plant selection completely transformed our outdoor space.
+        Highly recommended for landscaping projects.
+      </p>
+    </article>
+
+  </div>
+</section>
 
         {/* ================================================================
             ABOUT
