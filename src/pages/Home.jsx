@@ -14,7 +14,7 @@ export default function Home() {
   {/* Background image + dark overlay */}
   <div className="absolute inset-0">
     {/* replace with your hero image path */}
-    <div className="absolute inset-0 bg-[url('/images/hero-dark.jpg')] bg-cover bg-center opacity-55" />
+    <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-55" />
     <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/80" />
     {/* subtle stars/noise vibe */}
     <div className="absolute inset-0 opacity-[0.10] [background-image:radial-gradient(white_1px,transparent_1px)] [background-size:18px_18px]" />
