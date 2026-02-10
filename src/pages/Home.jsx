@@ -9,15 +9,17 @@ import CountUp from "../components/CountUp.jsx";
 export default function Home() {
   return (
     <div>
-      {/* HERO (PGI dark glass style) */}
+    {/* HERO (PGI dark glass style) */}
 <section className="relative overflow-hidden border-b border-white/10 bg-[#05070b]">
-  {/* Background image + dark overlay */}
+  {/* Background image (mobile + desktop) */}
   <div className="absolute inset-0">
-    {/* replace with your hero image path */}
-    <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-55" />
-    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/80" />
-    {/* subtle stars/noise vibe */}
-    <div className="absolute inset-0 opacity-[0.10] [background-image:radial-gradient(white_1px,transparent_1px)] [background-size:18px_18px]" />
+    <div
+      className="
+        absolute inset-0
+        bg-[url('/images/hero-bg-mobile.jpg')] bg-cover bg-center
+        sm:bg-[url('/images/hero-bg.jpg')]
+      "
+    />
   </div>
 
   <Container className="relative py-14 sm:py-20">
@@ -27,7 +29,6 @@ export default function Home() {
     <div className="grid items-stretch gap-8 lg:grid-cols-2">
       {/* LEFT GLASS CARD */}
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.06] shadow-2xl backdrop-blur-xl">
-        {/* inner glow */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(16,185,129,0.18),transparent_55%),radial-gradient(circle_at_80%_80%,rgba(34,197,94,0.10),transparent_60%)]" />
         <div className="relative p-7 sm:p-10">
           <p className="text-xs font-semibold tracking-wide text-white/70 hero-anim-1">
@@ -48,14 +49,12 @@ export default function Home() {
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3 hero-anim-4">
-            {/* make buttons match dark */}
             <div className="hero-cta">
               <PrimaryButton to="/contact">Talk to us</PrimaryButton>
             </div>
             <SecondaryButton to="/services">Explore services</SecondaryButton>
           </div>
 
-          {/* KPI STATS (dark glass chips like PGI) */}
           <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4 hero-anim-4">
             {heroStats.map((h) => (
               <div
@@ -72,16 +71,13 @@ export default function Home() {
 
       {/* RIGHT GLASS CARD */}
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.06] shadow-2xl backdrop-blur-xl">
-        {/* green glass gradient */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_15%,rgba(16,185,129,0.20),transparent_55%),radial-gradient(circle_at_80%_75%,rgba(34,197,94,0.14),transparent_60%)]" />
         <div className="relative p-7 sm:p-10">
-          {/* pill */}
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-400/10 px-4 py-2 text-xs font-semibold text-emerald-100">
             <span className="h-2 w-2 rounded-full bg-emerald-300 animate-pulse" />
             Green Today, Greener Tomorrow
           </div>
 
-          {/* headline */}
           <h3 className="mt-4 text-2xl font-semibold leading-tight text-white sm:text-3xl">
             Lowering footprints,
             <span className="block text-emerald-300">Raising standards</span>
@@ -91,7 +87,6 @@ export default function Home() {
             We plan outdoor works with drainage-first execution, durable materials, and greener outcomes that last.
           </p>
 
-          {/* KPI tiles like PGI */}
           <div className="mt-7 grid gap-4 sm:grid-cols-3">
             <div className="rounded-2xl border border-white/10 bg-black/20 p-5 backdrop-blur-md transition hover:border-emerald-300/30">
               <div className="text-xs text-white/60">Plants installed</div>
@@ -118,13 +113,13 @@ export default function Home() {
             </div>
           </div>
 
-          {/* bottom divider line */}
           <div className="mt-7 h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         </div>
       </div>
     </div>
   </Container>
 </section>
+
 
       {/* SERVICES */}
       <section>
