@@ -79,7 +79,7 @@ export default function Home() {
           </div>
 
           <h3 className="mt-4 text-2xl font-semibold leading-tight text-white sm:text-3xl">
-            Lowering footprints,
+            Lowering footprints
             <span className="block text-emerald-300">Raising standards</span>
           </h3>
 
