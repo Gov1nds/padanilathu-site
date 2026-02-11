@@ -84,8 +84,9 @@ export default function Home() {
           </h3>
 
           <p className="mt-3 text-sm leading-relaxed text-white/70">
-            We plan outdoor works with drainage-first execution, durable materials, and greener outcomes that last.
-          </p>
+  “The vision of Padanilath: joining nature with technology in vibrantly inclusive ways to create a world that truly blooms.”
+</p>
+
 
           <div className="mt-7 grid gap-4 sm:grid-cols-3">
             <div className="rounded-2xl border border-white/10 bg-black/20 p-5 backdrop-blur-md transition hover:border-emerald-300/30">
