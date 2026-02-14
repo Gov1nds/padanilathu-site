@@ -5,7 +5,7 @@ import { newsItems, site } from "../content/siteData.js";
 const newsBodyBySlug = {
   "outdoor-works-practice": {
     intro:
-      "Padanilath & Company has launched a dedicated Outdoor Works practice to support clients planning outdoor construction, site development, and infrastructure coordination across Kerala. This update expands our capability in drainage-first planning, material durability, and execution governance.",
+      "Padanilath has launched a dedicated Outdoor Works practice to support clients planning outdoor construction, site development, and infrastructure coordination across Kerala. This update expands our capability in drainage-first planning, material durability, and execution governance.",
     highlights: [
       "Outdoor construction planning: sequencing, schedule and vendor alignment",
       "Drainage-first approach for monsoon conditions and long-term performance",

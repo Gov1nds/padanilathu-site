@@ -43,7 +43,7 @@ export default function Home() {
           </h1>
 
           <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/70 hero-anim-3">
-            Our expertise lies in premium outdoor and landscape development, integrating sustainable design, green architectural principles, and quality execution to create resilient, eco-conscious environments
+            Our expertise lies in premium outdoor and landscape development, integrating sustainable design, green architectural principles, and quality execution to create resilient, eco-conscious environmentsF
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3 hero-anim-4">
